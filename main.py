@@ -6,6 +6,9 @@ pygame.font.init()
 screen = pygame.display.set_mode([500, 500])
 clock = pygame.time.Clock()
 font = pygame.font.SysFont('Sans-Serif', 45)
+gameOverText = font.render("GAME OVER", False, (255, 255, 255))
+titleText = font.render("METAL FALCON - SPACE TO START", False, (255, 255, 255))
+title = True
 
 iFrames = 60
 wasHit = False
@@ -20,6 +23,14 @@ missileY = 0
 playerX = 250
 playerY = 400
 
+screen.fill((0,0,0))
+events = pygame.event.get()
+# while title:
+#     screen.blit(titleText, (0,0))
+# for event in events:
+#     if event.type == pygame.KEYDOWN:
+#         if event.key == pygame.K_SPACE:
+#             title = False
 running = True
 while running:
     healthText = font.render(str(health), False, (0, 0, 0))
@@ -59,7 +70,22 @@ while running:
             iFrames = 60
             wasHit = False
 
+    if health == 0:
+        running = False
+    
+
     pygame.display.flip()
 
     clock.tick(60)
+
+screen.fill((0, 0, 0))
+
+while running == False and health == 0:
+
+    pygame.display.flip()
+    screen.blit(gameOverText, (0,0))
+    if event.type == pygame.QUIT:
+        health -= 1
+    pygame.display.flip()
+
 pygame.quit()
